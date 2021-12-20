@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Pintmark</string>
+    <string name="button_addMarker">Add marker</string>
+    <string name="hint_markerTitle">Name</string>
+    <string name="hint_markerDescription">Description</string>
+    <string name="menu_addMarker">Add</string>
+    <string name="menu_cancelMarker">Cancel</string>
+    <string name="enter_marker_title"> Please enter a marker Title </string>
+    <string name="length_marker_title"> Marker Title must be at least 5 characters</string>
+    <string name="save_marker"> Save Marker </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_marker_image">Select image</string>
+    <string name="change_marker_image">Change image</string>
+    <string name="button_location">Set Location</string>
+    <string name="title_activity_map">Map</string>
+    <string name="label_category">Category:</string>
+    <string-array name="categories">
+        <item>PUB</item>
+        <item>RESTAURANT</item>
+        <item>OTHER</item>
+    </string-array>
+</resources>
