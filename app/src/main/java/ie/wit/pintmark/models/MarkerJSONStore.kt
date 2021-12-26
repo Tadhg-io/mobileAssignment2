@@ -56,6 +56,18 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
         serialize()
     }
 
+    override fun delete (placemark: MarkerModel) {
+        // get all markers in an array list
+        val markerList = findAll() as ArrayList<MarkerModel>
+        // find the marker to delete by id
+        var result: MarkerModel? = markerList.find { r -> r.id == placemark.id }
+        if (result != null) {
+            // delete the marker
+            markerList.remove(result)
+        }
+        serialize()
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(placemarks, listType)
         write(context, JSON_FILE, jsonString)

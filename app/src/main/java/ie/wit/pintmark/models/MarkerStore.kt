@@ -4,4 +4,5 @@ interface MarkerStore {
     fun findAll(): List<MarkerModel>
     fun create(placemark: MarkerModel)
     fun update(placemark: MarkerModel)
+    fun delete(placemark: MarkerModel)
 }

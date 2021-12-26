@@ -46,11 +46,32 @@ class MarkerActivity : AppCompatActivity() {
         }
         registerImagePickerCallback()
         registerMapCallback()
+        val categories = resources.getStringArray(R.array.categories)
 
         app = application as MainApp
         i("Marker Activity started...")
 
-        val categories = resources.getStringArray(R.array.categories)
+        // IF EDIT
+        if (intent.hasExtra("edit_marker")) {
+            edit = true
+            marker = intent.extras?.getParcelable("edit_marker")!!
+            binding.markerTitle.setText(marker.title)
+            binding.markerDescription.setText(marker.description)
+            binding.btnAdd.setText(R.string.save_marker)
+            binding.category.setSelection(categories.indexOf(marker.category.toString()))
+            Picasso.get()
+                .load(marker.image)
+                .into(binding.image)
+            if (marker.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_marker_image)
+            }
+        }
+        // IF CREATE
+        else {
+            binding.btnDelete.setVisibility(View.GONE)
+        }
+
+        // CATEGORY SPINNER
         val spinner: Spinner = findViewById(R.id.category)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
@@ -76,21 +97,7 @@ class MarkerActivity : AppCompatActivity() {
             }
         }
 
-        if (intent.hasExtra("edit_marker")) {
-            edit = true
-            marker = intent.extras?.getParcelable("edit_marker")!!
-            binding.markerTitle.setText(marker.title)
-            binding.markerDescription.setText(marker.description)
-            binding.btnAdd.setText(R.string.save_marker)
-            binding.category.setSelection(categories.indexOf(marker.category.toString()))
-            Picasso.get()
-                .load(marker.image)
-                .into(binding.image)
-            if (marker.image != Uri.EMPTY) {
-                binding.chooseImage.setText(R.string.change_marker_image)
-            }
-        }
-
+        // ADD MARKER BUTTON
         binding.markerLocation.setOnClickListener {
             val location = Location(52.245696, -7.139102, 15f)
             if (marker.zoom != 0f) {
@@ -103,6 +110,7 @@ class MarkerActivity : AppCompatActivity() {
             mapIntentLauncher.launch(launcherIntent)
         }
 
+        // ADD BUTTON
         binding.btnAdd.setOnClickListener() {
             marker.title = binding.markerTitle.text.toString()
             marker.description = binding.markerDescription.text.toString()
@@ -123,6 +131,14 @@ class MarkerActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        // DELETE BUTTON
+        binding.btnDelete.setOnClickListener() {
+            app.markers.delete(marker.copy())
+            setResult(RESULT_OK)
+            finish()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

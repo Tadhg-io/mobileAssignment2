@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pintmark</string>
     <string name="button_addMarker">Add marker</string>
+    <string name="button_deleteMarker">Delete</string>
     <string name="hint_markerTitle">Name</string>
     <string name="hint_markerDescription">Description</string>
     <string name="menu_addMarker">Add</string>
