@@ -32,11 +32,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapActivity"
+            android:name=".views.map.MapView"
             android:exported="true"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".activities.MarkerListActivity"
+            android:name=".views.markerlist.MarkerListView"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MarkerActivity"
+            android:name=".views.marker.MarkerView"
             android:exported="true"></activity>
     </application>
 

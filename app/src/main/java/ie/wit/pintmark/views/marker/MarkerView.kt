@@ -1,4 +1,4 @@
-package ie.wit.pintmark.activities
+package ie.wit.pintmark.views.marker
 
 import android.content.Intent
 import android.net.Uri
@@ -20,32 +20,37 @@ import ie.wit.pintmark.helpers.showImagePicker
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.Location
 import ie.wit.pintmark.models.MarkerModel
+import ie.wit.pintmark.views.map.MapView
 import timber.log.Timber.i
 
 
-class MarkerActivity : AppCompatActivity() {
+class MarkerView : AppCompatActivity() {
 
     private lateinit var binding: ActivityMarkerBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var presenter : MarkerPresenter
     var marker = MarkerModel()
     lateinit var app : MainApp
     var edit = false
     var selectedCategory = "PUB"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMarkerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        presenter = MarkerPresenter(this)
+
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
 
+        // IMAGE BUTTON
         binding.chooseImage.setOnClickListener {
-            showImagePicker(imageIntentLauncher)
+            presenter.setImage()
         }
-        registerImagePickerCallback()
-        registerMapCallback()
+
         val categories = resources.getStringArray(R.array.categories)
 
         app = application as MainApp
@@ -97,17 +102,9 @@ class MarkerActivity : AppCompatActivity() {
             }
         }
 
-        // ADD MARKER BUTTON
+        // LOCATION BUTTON
         binding.markerLocation.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            if (marker.zoom != 0f) {
-                location.lat =  marker.lat
-                location.lng = marker.lng
-                location.zoom = marker.zoom
-            }
-            val launcherIntent = Intent(this, MapActivity::class.java)
-                .putExtra("location", location)
-            mapIntentLauncher.launch(launcherIntent)
+            presenter.setLocation()
         }
 
         // ADD BUTTON
@@ -122,21 +119,13 @@ class MarkerActivity : AppCompatActivity() {
                 Snackbar.make(it,R.string.length_marker_title, Snackbar.LENGTH_LONG)
                     .show()
             } else {
-                if (edit) {
-                    app.markers.update(marker.copy())
-                } else {
-                    app.markers.create(marker.copy())
-                }
-                setResult(RESULT_OK)
-                finish()
+                presenter.doSaveMarker(marker)
             }
         }
 
         // DELETE BUTTON
         binding.btnDelete.setOnClickListener() {
-            app.markers.delete(marker.copy())
-            setResult(RESULT_OK)
-            finish()
+            presenter.doDeleteMarker()
         }
 
     }
@@ -149,50 +138,10 @@ class MarkerActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_cancel -> {
-                finish()
+                presenter.doCancel()
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun registerImagePickerCallback() {
-        imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when(result.resultCode){
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            i("Got Result ${result.data!!.data}")
-                            marker.image = result.data!!.data!!
-                            Picasso.get()
-                                .load(marker.image)
-                                .into(binding.image)
-                            binding.chooseImage.setText(R.string.change_marker_image)
-                        } // end of if
-                    }
-                    RESULT_CANCELED -> { } else -> { }
-                }
-            }
-    }
-
-    private fun registerMapCallback() {
-        mapIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when (result.resultCode) {
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            i("Got Location ${result.data.toString()}")
-                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
-                            i("Location == $location")
-                            marker.lat = location.lat
-                            marker.lng = location.lng
-                            marker.zoom = location.zoom
-                        } // end of if
-                    }
-                    RESULT_CANCELED -> { } else -> { }
-                }
-            }
     }
 
 }
