@@ -42,7 +42,30 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
 
 
     override fun update(placemark: MarkerModel) {
-        // todo
+        // get all markers in an array list
+        val markerList = findAll() as ArrayList<MarkerModel>
+        // find the marker to update by id
+        var result: MarkerModel? = markerList.find { r -> r.id == placemark.id }
+        // overwrite the properties
+        if (result != null) {
+            result.title = placemark.title
+            result.description = placemark.description
+            result.category = placemark.category
+            result.image = placemark.image
+        }
+        serialize()
+    }
+
+    override fun delete (placemark: MarkerModel) {
+        // get all markers in an array list
+        val markerList = findAll() as ArrayList<MarkerModel>
+        // find the marker to delete by id
+        var result: MarkerModel? = markerList.find { r -> r.id == placemark.id }
+        if (result != null) {
+            // delete the marker
+            markerList.remove(result)
+        }
+        serialize()
     }
 
     private fun serialize() {

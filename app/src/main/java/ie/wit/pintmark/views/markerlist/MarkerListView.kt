@@ -1,4 +1,4 @@
-package ie.wit.pintmark.activities
+package ie.wit.pintmark.views.markerlist
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,24 +8,29 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.model.Marker
 import ie.wit.pintmark.R
+import ie.wit.pintmark.views.marker.MarkerView
 import ie.wit.pintmark.adapters.PintmarkAdapter
 import ie.wit.pintmark.adapters.PintmarkListener
 import ie.wit.pintmark.databinding.ActivityMarkerListBinding
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.MarkerModel
 
-class MarkerListActivity : AppCompatActivity(), PintmarkListener {
+class MarkerListView : AppCompatActivity(), PintmarkListener {
 
     lateinit var app: MainApp
-    private lateinit var binding: ActivityMarkerListBinding
+    lateinit var binding: ActivityMarkerListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    lateinit var presenter: MarkerListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMarkerListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // initialise the presenter
+        presenter = MarkerListPresenter(this)
 
         app = application as MainApp
 
@@ -36,7 +41,10 @@ class MarkerListActivity : AppCompatActivity(), PintmarkListener {
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
-        registerRefreshCallback()
+    }
+
+    override fun onMarkerClick(marker: MarkerModel) {
+        presenter.openEditPlacemark(marker)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -46,23 +54,9 @@ class MarkerListActivity : AppCompatActivity(), PintmarkListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_add -> {
-                val launcherIntent = Intent(this, MarkerActivity::class.java)
-                refreshIntentLauncher.launch(launcherIntent)
-            }
+            R.id.item_add -> { presenter.openAddPlacemark() }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onMarkerClick(marker: MarkerModel) {
-        val launcherIntent = Intent(this, MarkerActivity::class.java)
-        launcherIntent.putExtra("edit_marker", marker)
-        refreshIntentLauncher.launch(launcherIntent)
-    }
-
-    private fun registerRefreshCallback() {
-        refreshIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
-    }
 }
