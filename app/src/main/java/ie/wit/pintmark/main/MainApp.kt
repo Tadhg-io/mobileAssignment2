@@ -3,6 +3,7 @@ package ie.wit.pintmark.main
 import android.app.Application
 import ie.wit.pintmark.models.MarkerJSONStore
 import ie.wit.pintmark.models.MarkerStore
+import ie.wit.pintmark.models.MarkerStoreRoom
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -14,7 +15,7 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        markers = MarkerJSONStore(applicationContext)
+        markers = MarkerStoreRoom(applicationContext)
         i("Main App started")
     }
 }

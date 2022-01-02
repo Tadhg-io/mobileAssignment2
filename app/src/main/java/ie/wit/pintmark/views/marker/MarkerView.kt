@@ -21,6 +21,9 @@ import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.Location
 import ie.wit.pintmark.models.MarkerModel
 import ie.wit.pintmark.views.map.MapView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber.i
 
 
@@ -119,13 +122,17 @@ class MarkerView : AppCompatActivity() {
                 Snackbar.make(it,R.string.length_marker_title, Snackbar.LENGTH_LONG)
                     .show()
             } else {
-                presenter.doSaveMarker(marker)
+                GlobalScope.launch(Dispatchers.IO) {
+                    presenter.doSaveMarker(marker)
+                }
             }
         }
 
         // DELETE BUTTON
         binding.btnDelete.setOnClickListener() {
-            presenter.doDeleteMarker()
+            GlobalScope.launch(Dispatchers.IO) {
+                presenter.doDeleteMarker()
+            }
         }
 
     }

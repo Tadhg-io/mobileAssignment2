@@ -16,7 +16,7 @@ import ie.wit.pintmark.views.marker.MarkerPresenter
 
 class MarkerListPresenter(val view : MarkerListView) {
 
-    lateinit var app: MainApp
+    var app: MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     init {
@@ -45,5 +45,7 @@ class MarkerListPresenter(val view : MarkerListView) {
         launcherIntent.putExtra("edit_marker", marker)
         refreshIntentLauncher.launch(launcherIntent)
     }
+
+    suspend fun getMarkers() = app.markers.findAll()
 
 }

@@ -16,6 +16,9 @@ import ie.wit.pintmark.adapters.PintmarkListener
 import ie.wit.pintmark.databinding.ActivityMarkerListBinding
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.MarkerModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MarkerListView : AppCompatActivity(), PintmarkListener {
 
@@ -36,7 +39,10 @@ class MarkerListView : AppCompatActivity(), PintmarkListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PintmarkAdapter(app.markers.findAll(),this)
+        GlobalScope.launch(Dispatchers.Main) {
+            binding.recyclerView.adapter =
+                PintmarkAdapter(presenter.getMarkers(), this@MarkerListView)
+        }
 
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)

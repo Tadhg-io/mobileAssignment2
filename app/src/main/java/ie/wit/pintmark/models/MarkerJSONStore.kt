@@ -29,19 +29,23 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
         }
     }
 
-    override fun findAll(): MutableList<MarkerModel> {
+    override suspend fun findById(id: Long): MarkerModel? {
+        return findById(id)
+    }
+
+    override suspend fun findAll(): MutableList<MarkerModel> {
         logAll()
         return placemarks
     }
 
-    override fun create(placemark: MarkerModel) {
+    override suspend fun create(placemark: MarkerModel) {
         placemark.id = generateRandomId()
         placemarks.add(placemark)
         serialize()
     }
 
 
-    override fun update(placemark: MarkerModel) {
+    override suspend fun update(placemark: MarkerModel) {
         // get all markers in an array list
         val markerList = findAll() as ArrayList<MarkerModel>
         // find the marker to update by id
@@ -56,7 +60,7 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
         serialize()
     }
 
-    override fun delete (placemark: MarkerModel) {
+    override suspend fun delete (placemark: MarkerModel) {
         // get all markers in an array list
         val markerList = findAll() as ArrayList<MarkerModel>
         // find the marker to delete by id

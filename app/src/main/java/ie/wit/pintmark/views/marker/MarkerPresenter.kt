@@ -34,7 +34,7 @@ class MarkerPresenter(val view: MarkerView) {
         registerMapCallback()
     }
 
-    fun doSaveMarker(marker: MarkerModel) {
+    suspend fun doSaveMarker(marker: MarkerModel) {
         if (edit) {
             app.markers.update(marker.copy())
         } else {
@@ -48,7 +48,7 @@ class MarkerPresenter(val view: MarkerView) {
         view.finish()
     }
 
-    fun doDeleteMarker() {
+    suspend fun doDeleteMarker() {
         app.markers.delete(view.marker.copy())
         view.setResult(AppCompatActivity.RESULT_OK)
         view.finish()
