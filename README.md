@@ -4,7 +4,7 @@ This project is an assignment for the Mobile App Development Module of WIT HDip 
 This is an android application built using the Kotlin framework. 
 
 ## Personal Statement
-This app was a continuation of my submission for Assignment 1.
+This app was a continuation of my submission for Assignment 1. 
 
 ![image](https://user-images.githubusercontent.com/40873652/147891005-507eaa30-03b9-4c73-b2eb-d2e20eaab39e.png)
 
@@ -25,7 +25,7 @@ This app was a continuation of my submission for Assignment 1.
 ![image](https://user-images.githubusercontent.com/40873652/147890464-6f4841af-9667-4f19-a361-b214d485872c.png)
 
 ## Git Approach
-For this project, I used the GitFlow workflow.
+For this project, I used the GitFlow workflow. I work in the develop branch for small fixes and updates and create a new branch for a new major feature. Once a feature is finished, I merge the feature branch back into the develop branch. For a release I create a new branch from develop. I create the release from this new branch and then merge this branch into master.
 ![image](https://user-images.githubusercontent.com/40873652/147890617-24af16ae-a342-4e9d-a643-aebe0d90bcff.png)
 
 
