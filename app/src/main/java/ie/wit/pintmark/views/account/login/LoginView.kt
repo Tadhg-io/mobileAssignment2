@@ -3,6 +3,7 @@ package ie.wit.pintmark.views.account.login
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.SignInButton
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.pintmark.R
 import ie.wit.pintmark.databinding.ActivityLoginBinding
@@ -44,6 +45,9 @@ class LoginView : AppCompatActivity(){
                 presenter.doLogin(email,password)
             }
         }
+
+        binding.googleSignInButton.setSize(SignInButton.SIZE_WIDE)
+        binding.googleSignInButton.setColorScheme(0)
 
     }
 
