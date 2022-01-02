@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "850423086321",
+    "project_id": "mobilea2-1f870",
+    "storage_bucket": "mobilea2-1f870.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850423086321:android:17cb23f48066a1e63bbd50",
+        "android_client_info": {
+          "package_name": "ie.wit.pintmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850423086321-p2ekknpuoq1hj2a8reas7u284ecc0hve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOBKWWxeFuZmkmwU62k-80E5vjuRO0Ijc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850423086321-p2ekknpuoq1hj2a8reas7u284ecc0hve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

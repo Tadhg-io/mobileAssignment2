@@ -55,6 +55,7 @@ class MarkerListView : AppCompatActivity(), PintmarkListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> { presenter.openAddPlacemark() }
+            R.id.item_logout -> { presenter.doLogout() }
         }
         return super.onOptionsItemSelected(item)
     }

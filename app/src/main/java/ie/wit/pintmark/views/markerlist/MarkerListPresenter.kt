@@ -11,6 +11,7 @@ import ie.wit.pintmark.views.marker.MarkerView
 import ie.wit.pintmark.adapters.PintmarkListener
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.MarkerModel
+import ie.wit.pintmark.views.account.login.LoginView
 import ie.wit.pintmark.views.marker.MarkerPresenter
 
 class MarkerListPresenter(val view : MarkerListView) {
@@ -31,6 +32,11 @@ class MarkerListPresenter(val view : MarkerListView) {
 
     fun openAddPlacemark() {
         val launcherIntent = Intent(view, MarkerView::class.java)
+        refreshIntentLauncher.launch(launcherIntent)
+    }
+
+    fun doLogout(){
+        val launcherIntent = Intent(view, LoginView::class.java)
         refreshIntentLauncher.launch(launcherIntent)
     }
 

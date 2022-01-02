@@ -6,6 +6,7 @@
     <string name="hint_markerDescription">Description</string>
     <string name="menu_addMarker">Add</string>
     <string name="menu_cancelMarker">Cancel</string>
+    <string name="menu_logout">Logout</string>
     <string name="enter_marker_title"> Please enter a marker Title </string>
     <string name="length_marker_title"> Marker Title must be at least 5 characters</string>
     <string name="save_marker"> Save Marker </string>

@@ -50,6 +50,9 @@
         <activity
             android:name=".views.marker.MarkerView"
             android:exported="true" />
+        <activity
+            android:name=".views.account.login.LoginView"
+            android:exported="true" />
     </application>
 
 </manifest>
