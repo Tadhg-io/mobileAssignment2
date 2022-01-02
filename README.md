@@ -26,6 +26,7 @@ I started several features on this app which I did not succeed in implementing. 
 - MVP Design Pattern
 
 ![image](https://user-images.githubusercontent.com/40873652/147890464-6f4841af-9667-4f19-a361-b214d485872c.png)
+
 ![class_diagram (2)](https://user-images.githubusercontent.com/40873652/147891520-f5e75429-58b3-46e0-977d-0341fdd910b5.png)
 
 
