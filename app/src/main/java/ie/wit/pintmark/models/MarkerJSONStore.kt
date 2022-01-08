@@ -81,6 +81,10 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
     private fun logAll() {
         placemarks.forEach { Timber.i("$it") }
     }
+
+    override fun clear(){
+        placemarks.clear()
+    }
 }
 
 class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
@@ -99,4 +103,5 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
     ): JsonElement {
         return JsonPrimitive(src.toString())
     }
+
 }

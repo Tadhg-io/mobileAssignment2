@@ -5,4 +5,5 @@ interface MarkerStore {
     fun create(placemark: MarkerModel)
     fun update(placemark: MarkerModel)
     fun delete(placemark: MarkerModel)
+    fun clear()
 }
