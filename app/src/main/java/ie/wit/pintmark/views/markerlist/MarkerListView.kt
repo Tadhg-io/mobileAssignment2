@@ -1,10 +1,12 @@
 package ie.wit.pintmark.views.markerlist
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import ie.wit.pintmark.views.marker.MarkerView
 import ie.wit.pintmark.adapters.PintmarkAdapter
 import ie.wit.pintmark.adapters.PintmarkListener
 import ie.wit.pintmark.databinding.ActivityMarkerListBinding
+import ie.wit.pintmark.helpers.OnSwipeTouchListener
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.MarkerModel
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +30,7 @@ class MarkerListView : AppCompatActivity(), PintmarkListener {
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var presenter: MarkerListPresenter
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMarkerListBinding.inflate(layoutInflater)

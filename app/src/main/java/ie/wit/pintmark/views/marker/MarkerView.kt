@@ -1,5 +1,6 @@
 package ie.wit.pintmark.views.marker
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +11,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.wit.pintmark.R
 import ie.wit.pintmark.databinding.ActivityMarkerBinding
+import ie.wit.pintmark.helpers.OnSwipeTouchListener
 import ie.wit.pintmark.helpers.showImagePicker
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.Location
@@ -39,6 +42,7 @@ class MarkerView : AppCompatActivity() {
     var selectedCategory = "PUB"
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMarkerBinding.inflate(layoutInflater)
@@ -105,11 +109,6 @@ class MarkerView : AppCompatActivity() {
             }
         }
 
-        // LOCATION BUTTON
-        binding.markerLocation.setOnClickListener {
-            presenter.setLocation()
-        }
-
         // ADD BUTTON
         binding.btnAdd.setOnClickListener() {
             marker.title = binding.markerTitle.text.toString()
@@ -136,6 +135,19 @@ class MarkerView : AppCompatActivity() {
                 presenter.doDeleteMarker()
             }
         }
+
+        // Swipe Support for Back Navigation
+        binding.scrollView.setOnTouchListener(object : OnSwipeTouchListener(this@MarkerView) {
+            @SuppressLint("ClickableViewAccessibility")
+            // swipe right to cancel
+            override fun onSwipeRight() {
+                presenter.doCancel()
+            }
+            // swipe left to set location
+            override fun onSwipeLeft() {
+                presenter.setLocation()
+            }
+        })
 
     }
 
