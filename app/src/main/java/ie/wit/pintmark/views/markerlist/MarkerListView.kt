@@ -1,6 +1,7 @@
 package ie.wit.pintmark.views.markerlist
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -16,6 +17,12 @@ import ie.wit.pintmark.adapters.PintmarkListener
 import ie.wit.pintmark.databinding.ActivityMarkerListBinding
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.MarkerModel
+import android.text.style.ForegroundColorSpan
+
+import android.text.SpannableString
+
+
+
 
 class MarkerListView : AppCompatActivity(), PintmarkListener {
 
@@ -41,6 +48,7 @@ class MarkerListView : AppCompatActivity(), PintmarkListener {
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
+
     }
 
     override fun onMarkerClick(marker: MarkerModel) {
@@ -49,6 +57,10 @@ class MarkerListView : AppCompatActivity(), PintmarkListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        val item = menu.getItem(1)
+        val s = SpannableString("Logout")
+        s.setSpan(ForegroundColorSpan(Color.BLACK), 0, s.length, 0)
+        item.title = s
         return super.onCreateOptionsMenu(menu)
     }
 
