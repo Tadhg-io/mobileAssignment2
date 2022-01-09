@@ -34,7 +34,7 @@ class MarkerPresenter(val view: MarkerView) {
         registerMapCallback()
     }
 
-    fun doSaveMarker(marker: MarkerModel) {
+    suspend fun doSaveMarker(marker: MarkerModel) {
         if (edit) {
             app.markers.update(marker.copy())
         } else {
@@ -48,7 +48,7 @@ class MarkerPresenter(val view: MarkerView) {
         view.finish()
     }
 
-    fun doDeleteMarker() {
+    suspend fun doDeleteMarker() {
         app.markers.delete(view.marker.copy())
         view.setResult(AppCompatActivity.RESULT_OK)
         view.finish()
@@ -86,14 +86,19 @@ class MarkerPresenter(val view: MarkerView) {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            marker.image = result.data!!.data!!
+                            marker.image = result.data!!.data!!.toString()
                             Picasso.get()
                                 .load(marker.image)
                                 .into(binding.image)
                             binding.chooseImage.setText(R.string.change_marker_image)
                         } // end of if
                     }
-                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
+                    AppCompatActivity.RESULT_CANCELED -> {
+                        // user cancelled, no need to do anything
+                    } else -> {
+                        // notify the user of an error
+
+                    }
                 }
             }
     }

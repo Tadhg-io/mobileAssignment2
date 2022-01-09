@@ -1,9 +1,10 @@
 package ie.wit.pintmark.models
 
 interface MarkerStore {
-    fun findAll(): List<MarkerModel>
-    fun create(placemark: MarkerModel)
-    fun update(placemark: MarkerModel)
-    fun delete(placemark: MarkerModel)
-    fun clear()
+    suspend fun findById(id: String): MarkerModel?
+    suspend fun findAll(): List<MarkerModel>
+    suspend fun create(placemark: MarkerModel)
+    suspend fun update(placemark: MarkerModel)
+    suspend fun delete(placemark: MarkerModel)
+    suspend fun clear()
 }
