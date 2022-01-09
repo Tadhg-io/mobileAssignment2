@@ -43,3 +43,5 @@ For this project, I used the GitFlow workflow. I work in the develop branch for 
 - https://github.com/rj642/BasicLoginFirebase
 - ### Google Authentication
 - https://developers.google.com/identity/sign-in/android/sign-in?utm_source=studio
+- ### setOnTouchListener() events
+- https://www.tutorialspoint.com/how-to-handle-swipe-gestures-in-kotlin
