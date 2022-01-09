@@ -1,5 +1,6 @@
 package ie.wit.pintmark.views.marker
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,17 +11,22 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.wit.pintmark.R
 import ie.wit.pintmark.databinding.ActivityMarkerBinding
+import ie.wit.pintmark.helpers.OnSwipeTouchListener
 import ie.wit.pintmark.helpers.showImagePicker
 import ie.wit.pintmark.main.MainApp
 import ie.wit.pintmark.models.Location
 import ie.wit.pintmark.models.MarkerModel
 import ie.wit.pintmark.views.map.MapView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber.i
 
 
@@ -36,6 +42,7 @@ class MarkerView : AppCompatActivity() {
     var selectedCategory = "PUB"
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMarkerBinding.inflate(layoutInflater)
@@ -64,10 +71,10 @@ class MarkerView : AppCompatActivity() {
             binding.markerDescription.setText(marker.description)
             binding.btnAdd.setText(R.string.save_marker)
             binding.category.setSelection(categories.indexOf(marker.category.toString()))
-            Picasso.get()
-                .load(marker.image)
-                .into(binding.image)
-            if (marker.image != Uri.EMPTY) {
+            if (marker.image != "") {
+                Picasso.get()
+                    .load(marker.image)
+                    .into(binding.image)
                 binding.chooseImage.setText(R.string.change_marker_image)
             }
         }
@@ -102,11 +109,6 @@ class MarkerView : AppCompatActivity() {
             }
         }
 
-        // LOCATION BUTTON
-        binding.markerLocation.setOnClickListener {
-            presenter.setLocation()
-        }
-
         // ADD BUTTON
         binding.btnAdd.setOnClickListener() {
             marker.title = binding.markerTitle.text.toString()
@@ -119,15 +121,39 @@ class MarkerView : AppCompatActivity() {
                 Snackbar.make(it,R.string.length_marker_title, Snackbar.LENGTH_LONG)
                     .show()
             } else {
-                presenter.doSaveMarker(marker)
+                // save the marker in a coroutine
+                GlobalScope.launch(Dispatchers.IO) {
+                    presenter.doSaveMarker(marker)
+                }
             }
         }
 
         // DELETE BUTTON
         binding.btnDelete.setOnClickListener() {
-            presenter.doDeleteMarker()
+            // delete the marker in a coroutine
+            GlobalScope.launch(Dispatchers.IO) {
+                presenter.doDeleteMarker()
+            }
         }
 
+        // Swipe Support for Back Navigation
+        binding.scrollView.setOnTouchListener(object : OnSwipeTouchListener(this@MarkerView) {
+            @SuppressLint("ClickableViewAccessibility")
+            // swipe right to cancel
+            override fun onSwipeRight() {
+                presenter.doCancel()
+            }
+            // swipe left to set location
+            override fun onSwipeLeft() {
+                presenter.setLocation()
+            }
+        })
+
+    }
+
+    fun updateImage(img: String) {
+        Picasso.get().load(img).into(binding.image)
+        binding.chooseImage.setText(R.string.change_marker_image)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

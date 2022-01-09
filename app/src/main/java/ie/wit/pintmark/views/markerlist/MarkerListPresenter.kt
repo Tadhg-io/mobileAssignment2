@@ -35,6 +35,10 @@ class MarkerListPresenter(val view : MarkerListView) {
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+    fun doDeleteMarker(marker: MarkerModel) {
+        app.markers.delete(marker)
+    }
+
     fun doLogout(){
         val launcherIntent = Intent(view, LoginView::class.java)
         refreshIntentLauncher.launch(launcherIntent)

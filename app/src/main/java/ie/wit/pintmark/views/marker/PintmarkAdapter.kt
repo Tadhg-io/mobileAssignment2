@@ -2,9 +2,11 @@ package ie.wit.pintmark.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ie.wit.pintmark.databinding.CardMarkerBinding
+import ie.wit.pintmark.helpers.OnSwipeTouchListener
 import ie.wit.pintmark.models.MarkerModel
 
 interface PintmarkListener {
@@ -33,10 +35,19 @@ class PintmarkAdapter constructor(private var markers: List<MarkerModel>,
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(marker: MarkerModel, listener: PintmarkListener) {
+            // bind text fields
             binding.markerTitle.text = marker.title
             binding.description.text = marker.description
             binding.category.text = marker.category
-            Picasso.get().load(marker.image).resize(200,200).into(binding.imageIcon)
+            // if an image exists
+            if (marker.image != ""){
+                // get the image using Picasso
+                Picasso.get()
+                    .load(marker.image)
+                    .resize(200, 200)
+                    .into(binding.imageIcon)
+            }
+            // set the onclick
             binding.root.setOnClickListener { listener.onMarkerClick(marker) }
         }
     }
