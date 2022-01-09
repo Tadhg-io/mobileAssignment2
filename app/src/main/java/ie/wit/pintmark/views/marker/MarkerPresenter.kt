@@ -85,19 +85,17 @@ class MarkerPresenter(val view: MarkerView) {
                 when(result.resultCode){
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
-                            Timber.i("Got Result ${result.data!!.data}")
+                            Timber.i("img SUCCESS ${result.data!!.data}")
                             marker.image = result.data!!.data!!.toString()
-                            Picasso.get()
-                                .load(marker.image)
-                                .into(binding.image)
-                            binding.chooseImage.setText(R.string.change_marker_image)
+                            view.updateImage(marker.image)
                         } // end of if
                     }
                     AppCompatActivity.RESULT_CANCELED -> {
                         // user cancelled, no need to do anything
+                        Timber.i("img CANCELLED ${result.data!!.data}")
                     } else -> {
                         // notify the user of an error
-
+                        Timber.i("img ERROR ${result.data!!.data}")
                     }
                 }
             }

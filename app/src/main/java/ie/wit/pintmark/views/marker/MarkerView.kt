@@ -67,10 +67,10 @@ class MarkerView : AppCompatActivity() {
             binding.markerDescription.setText(marker.description)
             binding.btnAdd.setText(R.string.save_marker)
             binding.category.setSelection(categories.indexOf(marker.category.toString()))
-            Picasso.get()
-                .load(marker.image)
-                .into(binding.image)
             if (marker.image != "") {
+                Picasso.get()
+                    .load(marker.image)
+                    .into(binding.image)
                 binding.chooseImage.setText(R.string.change_marker_image)
             }
         }
@@ -137,6 +137,11 @@ class MarkerView : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun updateImage(img: String) {
+        Picasso.get().load(img).into(binding.image)
+        binding.chooseImage.setText(R.string.change_marker_image)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
