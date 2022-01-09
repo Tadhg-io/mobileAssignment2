@@ -49,3 +49,5 @@ For this project, I used the GitFlow workflow. I work in the develop branch for 
 - https://www.tutorialkart.com/kotlin-android/android-textview-italic/
 - ### nested linear layouts
 - https://stackoverflow.com/questions/14779688/put-buttons-at-bottom-of-screen-with-linearlayout
+- ### Changing the text colour of menu items at runtime:
+- https://stackoverflow.com/questions/3519277/how-to-change-the-text-color-of-menu-item-in-android
