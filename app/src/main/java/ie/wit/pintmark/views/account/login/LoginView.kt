@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import ie.wit.pintmark.R
 import ie.wit.pintmark.databinding.ActivityLoginBinding
 import ie.wit.pintmark.main.MainApp
 
@@ -29,7 +28,7 @@ class LoginView : AppCompatActivity(){
                     .show()
             }
             else {
-                presenter.doSignUp(email,password)
+                presenter.doRegister(email,password)
             }
         }
 
@@ -41,7 +40,7 @@ class LoginView : AppCompatActivity(){
                     .show()
             }
             else {
-                presenter.doLogin(email,password)
+                presenter.doSignIn(email,password)
             }
         }
 

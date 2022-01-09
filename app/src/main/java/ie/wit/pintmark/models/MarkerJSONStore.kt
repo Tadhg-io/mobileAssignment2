@@ -15,13 +15,13 @@ val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .create()
 val listType: Type = object : TypeToken<ArrayList<MarkerModel>>() {}.type
 
-fun generateRandomId(): Long {
-    return Random().nextLong()
+fun generateRandomId(): String {
+    return Random().nextLong().toString()
 }
 
 class MarkerJSONStore(private val context: Context) : MarkerStore {
 
-    var placemarks = mutableListOf<MarkerModel>()
+    var markers = mutableListOf<MarkerModel>()
 
     init {
         if (exists(context, JSON_FILE)) {
@@ -29,38 +29,43 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
         }
     }
 
-    override fun findAll(): MutableList<MarkerModel> {
-        logAll()
-        return placemarks
+    override suspend fun findById(id: String): MarkerModel? {
+        val foundmarker: MarkerModel? = markers.find { p -> p.id == id }
+        return foundmarker
     }
 
-    override fun create(placemark: MarkerModel) {
-        placemark.id = generateRandomId()
-        placemarks.add(placemark)
+    override suspend fun findAll(): MutableList<MarkerModel> {
+        logAll()
+        return markers
+    }
+
+    override suspend fun create(marker: MarkerModel) {
+        marker.id = generateRandomId()
+        markers.add(marker)
         serialize()
     }
 
 
-    override fun update(placemark: MarkerModel) {
+    override suspend fun update(marker: MarkerModel) {
         // get all markers in an array list
         val markerList = findAll() as ArrayList<MarkerModel>
         // find the marker to update by id
-        var result: MarkerModel? = markerList.find { r -> r.id == placemark.id }
+        var result: MarkerModel? = markerList.find { r -> r.id == marker.id }
         // overwrite the properties
         if (result != null) {
-            result.title = placemark.title
-            result.description = placemark.description
-            result.category = placemark.category
-            result.image = placemark.image
+            result.title = marker.title
+            result.description = marker.description
+            result.category = marker.category
+            result.image = marker.image
         }
         serialize()
     }
 
-    override fun delete (placemark: MarkerModel) {
+    override suspend fun delete (marker: MarkerModel) {
         // get all markers in an array list
         val markerList = findAll() as ArrayList<MarkerModel>
         // find the marker to delete by id
-        var result: MarkerModel? = markerList.find { r -> r.id == placemark.id }
+        var result: MarkerModel? = markerList.find { r -> r.id == marker.id }
         if (result != null) {
             // delete the marker
             markerList.remove(result)
@@ -69,17 +74,21 @@ class MarkerJSONStore(private val context: Context) : MarkerStore {
     }
 
     private fun serialize() {
-        val jsonString = gsonBuilder.toJson(placemarks, listType)
+        val jsonString = gsonBuilder.toJson(markers, listType)
         write(context, JSON_FILE, jsonString)
     }
 
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE)
-        placemarks = gsonBuilder.fromJson(jsonString, listType)
+        markers = gsonBuilder.fromJson(jsonString, listType)
     }
 
     private fun logAll() {
-        placemarks.forEach { Timber.i("$it") }
+        markers.forEach { Timber.i("$it") }
+    }
+
+    override suspend fun clear(){
+        markers.clear()
     }
 }
 
@@ -99,4 +108,5 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
     ): JsonElement {
         return JsonPrimitive(src.toString())
     }
+
 }
