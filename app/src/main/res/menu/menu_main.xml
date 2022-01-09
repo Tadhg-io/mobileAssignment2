@@ -7,4 +7,10 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/menu_addMarker"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_logout"
+        android:title="@string/menu_logout"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>
