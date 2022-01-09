@@ -22,6 +22,11 @@ I started several features on this app which I did not succeed in implementing. 
 
 ![image](https://user-images.githubusercontent.com/40873652/147890451-8d366199-fef5-4878-b328-7f171633b810.png)
 
+- Firebase Realtime Database
+
+![image](https://user-images.githubusercontent.com/40873652/148703805-4d33aade-b7aa-42bc-a605-e0242dc13c0d.png)
+
+
 ## App Architecture
 - MVP Design Pattern
 
